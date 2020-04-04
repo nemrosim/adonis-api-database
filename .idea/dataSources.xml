@@ -13,7 +13,7 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://b88af1e6c8db11:777bc06b@eu-cdbr-west-02.cleardb.net/heroku_25906c14d20c624?reconnect=true</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="Staging-db" uuid="06985d3e-c58f-4824-a622-81cced8ad2b1">
+    <data-source source="LOCAL" name="Development-db" uuid="06985d3e-c58f-4824-a622-81cced8ad2b1">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

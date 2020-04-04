@@ -6,12 +6,12 @@ class AuthController {
     async login ({ auth, request }) {
         const { refreshToken, email, password } = request.post();
 
-        // if (refreshToken) {
-        //     return await auth
-        //         .generateForRefreshToken(refreshToken);
-        // }
+        if (refreshToken) {
+            return await auth
+                .generateForRefreshToken(refreshToken);
+        }
         return auth
-            // .withRefreshToken()
+            .withRefreshToken()
             .attempt(email, password);
     }
 
@@ -26,7 +26,6 @@ class AuthController {
         }
         const { password } = request.post();
         const user = new User();
-        user.username = username;
         user.password = password;
         user.email = email;
 

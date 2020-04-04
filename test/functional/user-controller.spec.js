@@ -31,7 +31,7 @@ test('create new user', async ({ assert, client }) => {
 
     assert.equal(loginResponseJson.type, 'bearer');
     assert.equal(Object.keys(loginResponseJson).length, 3);
-    assert.equal(loginResponseJson.token.length, 141);
+    assert.equal(loginResponseJson.token.length, 117);
     assert.equal(loginResponseJson.refreshToken.length, 96);
 
     const response = await client

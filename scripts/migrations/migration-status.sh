@@ -41,7 +41,15 @@ run_command() {
       if [[ "$choice" == "yes" ]]; then
         echo "Running migration:$1 on $2 environment"
         echo
-          cd ../.. && ENV_PATH=$3 adonis migration:$1
+          if [[ "$env_param" == ${PROD} ]]; then
+              cd ../.. && ENV_PATH=${PROD_ENV_FILE} adonis migration:$1
+          fi
+          if [[ "$env_param" == ${DEV} ]]; then
+              cd ../.. && ENV_PATH=${DEVELOPMENT_ENV_FILE} adonis migration:$1
+          fi
+          if [[ "$env_param" == ${TEST} ]]; then
+              cd ../.. && ENV_PATH=${TESTING_ENV_FILE} adonis migration:$1
+          fi
       else
         echo "You entered $choice. Script will not be executed"
       fi
@@ -52,4 +60,4 @@ run_command() {
   fi
 }
 
-run_command ${command_param} ${env_param} ${DEVELOPMENT_ENV_FILE}
+run_command ${command_param} ${env_param}

@@ -6,6 +6,11 @@ const Route = use('Route');
 Route
     .group(() => {
         Route
+            .post('login', 'AuthController.login')
+            .middleware(['guest'])
+            .formats(['json']);
+
+        Route
             .post('register', 'AuthController.register')
             .middleware(['guest'])
             .validator(new Map([
