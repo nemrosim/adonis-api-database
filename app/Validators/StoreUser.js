@@ -1,6 +1,6 @@
 'use strict';
 
-class RegisterUser {
+class StoreUser {
     /**
    * Will use validateAll function instead of validate()
    * @returns {boolean}
@@ -11,22 +11,18 @@ class RegisterUser {
 
     get rules () {
         return {
-            email: 'required|email|unique:users,email|max:254',
-            password: 'required|min:6|max:254',
+            email: 'required|email|unique:users,email',
+            password: 'required|min:6',
         };
     }
 
     get messages () {
         return {
-            // Email
             'email.required': 'Email is not present in request',
             'email.email': 'Enter a valid email address.',
             'email.unique': 'Email is already present in db',
-            'email.max': 'Email length should not be more than 254 characters',
-            // Password
-            'password.required': 'Password should be present in the request',
-            'password.max': 'Password length should not be more than 254 characters',
-            'password.min': 'Password length should be more than 5 characters',
+            'password.required': 'Password is required.',
+            'password.min': 'Min length of a password is 6 characters.',
         };
     }
 
@@ -41,4 +37,4 @@ class RegisterUser {
     }
 }
 
-module.exports = RegisterUser;
+module.exports = StoreUser;

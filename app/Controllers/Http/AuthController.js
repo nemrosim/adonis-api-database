@@ -1,6 +1,7 @@
 'use strict';
 
 const User = use('App/Models/User');
+const Logger = use('Logger');
 
 class AuthController {
     async login ({ auth, request }) {
@@ -10,6 +11,7 @@ class AuthController {
             return await auth
                 .generateForRefreshToken(refreshToken);
         }
+
         return auth
             .withRefreshToken()
             .attempt(email, password);

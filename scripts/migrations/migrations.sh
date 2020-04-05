@@ -4,6 +4,7 @@ source ./constants.sh
 # PARAMS
 env_param=$1
 command_param=$2
+flag_param=$3
 
 function is_first_param_valid {
     if [[ "$env_param" == ${PROD} ]] ||
@@ -33,13 +34,25 @@ run_command(){
   echo "Running migration:$1 on $2 environment"
   echo
     if [[ "$env_param" == ${PROD} ]]; then
-      cd ../.. && ENV_PATH=${PROD_ENV_FILE} adonis migration:$1
+      if [[ -z "$flag_param" ]]; then
+        cd ../.. && ENV_PATH=${PROD_ENV_FILE} adonis migration:$1
+      else
+        cd ../.. && ENV_PATH=${PROD_ENV_FILE} adonis migration:$1 "$flag_param"
+      fi
     fi
     if [[ "$env_param" == ${DEV} ]]; then
-      cd ../.. && ENV_PATH=${DEVELOPMENT_ENV_FILE} adonis migration:$1
+        if [[ -z "$flag_param" ]]; then
+          cd ../.. && ENV_PATH=${DEVELOPMENT_ENV_FILE} adonis migration:$1
+        else
+          cd ../.. && ENV_PATH=${DEVELOPMENT_ENV_FILE} adonis migration:$1 "$flag_param"
+        fi
     fi
     if [[ "$env_param" == ${TEST} ]]; then
-      cd ../.. && ENV_PATH=${TESTING_ENV_FILE} adonis migration:$1
+      if [[ -z "$flag_param" ]]; then
+        cd ../.. && ENV_PATH=${TESTING_ENV_FILE} adonis migration:$1
+      else
+        cd ../.. && ENV_PATH=${TESTING_ENV_FILE} adonis migration:$1 "$flag_param"
+      fi
     fi
 }
 
