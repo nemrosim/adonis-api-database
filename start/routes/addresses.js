@@ -2,23 +2,25 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route');
+const { ROUTES, CONTROLLERS } = require('../../constants/routes');
+
 
 Route
     .group(() => {
         Route
-            .resource('addresses', 'AddressController')
+            .resource(ROUTES.ADDRESSES, CONTROLLERS.ADDRESSES)
             .middleware('auth')
             .apiOnly();
         Route
-            .get('addresses/current', 'AddressController.addressOfCurrentUser')
+            .get(`${ROUTES.ADDRESSES}/current`, `${CONTROLLERS.ADDRESSES}.addressOfCurrentUser`)
             .middleware('auth')
             .formats(['json']);
         Route
-            .get('addresses/user/:id', 'AddressController.findByUserId')
+            .get(`${ROUTES.ADDRESSES}/user/:id`, `${CONTROLLERS.ADDRESSES}.findByUserId`)
             .middleware('auth')
             .formats(['json']);
         Route
-            .delete('addresses/user/:id', 'AddressController.deleteByUserId')
+            .delete(`${ROUTES.ADDRESSES}/user/:id`, `${CONTROLLERS.ADDRESSES}.deleteByUserId`)
             .middleware('auth')
             .formats(['json']);
     })
