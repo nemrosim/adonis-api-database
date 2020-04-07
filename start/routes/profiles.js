@@ -2,7 +2,7 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route');
-const { ROUTES, CONTROLLERS, VALIDATORS } = require('../../constants/routes');
+const { ROUTES, CONTROLLERS, VALIDATORS } = require('../../constants');
 
 Route
     .group(() => {
