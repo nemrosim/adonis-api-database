@@ -1,6 +1,25 @@
 const ROUTES = {
     USERS: 'users',
     PROFILES: 'profiles',
+    ADDRESSES: 'addresses',
+    LOGIN: 'login',
+    REGISTER: 'register',
 };
 
-module.exports = ROUTES;
+const CONTROLLERS = {
+    ADDRESSES: 'AddressController',
+    AUTH: 'AuthController',
+    PROFILE_CONTROLLER: 'ProfileController',
+    USER_CONTROLLER: 'UserController',
+};
+
+const VALIDATORS = {
+    REGISTER_USER: 'RegisterUser',
+    STORE_ADDRESS: 'StoreAddress',
+    STORE_PROFILE: 'StoreProfile',
+    STORE_USER: 'StoreUser',
+};
+
+module.exports = {
+    ROUTES, CONTROLLERS, VALIDATORS
+};
