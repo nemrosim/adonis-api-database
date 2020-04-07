@@ -1,21 +1,13 @@
-'use strict'
+'use strict';
 
 /** @type {import('@adonisjs/framework/src/Server')} */
-const Server = use('Server')
+const Server = use('Server');
 
-/*
-|--------------------------------------------------------------------------
-| Global Middleware
-|--------------------------------------------------------------------------
-|
-| Global middleware are executed on each http request only when the routes
-| match.
-|
-*/
 const globalMiddleware = [
-  'Adonis/Middleware/BodyParser',
-  'App/Middleware/ConvertEmptyStringsToNull'
-]
+    'Adonis/Middleware/BodyParser',
+    'App/Middleware/ConvertEmptyStringsToNull',
+    'App/Middleware/CountryDetector',
+];
 
 /*
 |--------------------------------------------------------------------------
@@ -35,9 +27,9 @@ const globalMiddleware = [
 |
 */
 const namedMiddleware = {
-  auth: 'Adonis/Middleware/Auth',
-  guest: 'Adonis/Middleware/AllowGuestOnly'
-}
+    auth: 'Adonis/Middleware/Auth',
+    guest: 'Adonis/Middleware/AllowGuestOnly',
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -50,11 +42,11 @@ const namedMiddleware = {
 |
 */
 const serverMiddleware = [
-  // 'Adonis/Middleware/Static',
-  'Adonis/Middleware/Cors'
-]
+    // 'Adonis/Middleware/Static',
+    'Adonis/Middleware/Cors',
+];
 
 Server
-  .registerGlobal(globalMiddleware)
-  .registerNamed(namedMiddleware)
-  .use(serverMiddleware)
+    .registerGlobal(globalMiddleware)
+    .registerNamed(namedMiddleware)
+    .use(serverMiddleware);
