@@ -2,8 +2,7 @@
 
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
-
-const ROLES = ['admin', 'user'];
+const { ROLES } = require('../../constants');
 
 class UserSchema extends Schema {
     up () {
@@ -15,7 +14,7 @@ class UserSchema extends Schema {
             table.string('password', 254)
                 .notNullable();
             table.enum('role', ROLES)
-                .defaultTo(ROLES[1]); // user
+                .defaultTo(ROLES.USER); // user
             table.timestamps();
         });
     }

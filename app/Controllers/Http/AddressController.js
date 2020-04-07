@@ -1,6 +1,7 @@
 'use strict';
 
 const Address = use('App/Models/Address');
+const Logger = use('Logger');
 
 class AddressController {
     async index () {
@@ -9,8 +10,33 @@ class AddressController {
             .fetch();
     }
 
-    async store ({ request }) {
-        const { userId, country, regionState, cityTown, street, house, apartment, postalCode } = request.post();
+    async show ({ params }) {
+        const ADDRESS_ID = params.id;
+        const address = await Address.findBy('id', ADDRESS_ID);
+        if (address) {
+            return address;
+        }
+        return {
+            error: `Address not found by ID:${ADDRESS_ID}`,
+        };
+    }
+
+    async store ({ auth, request, response }) {
+        try {
+            const user = await auth.getUser();
+            Logger.error('auth %j', user);
+        } catch (error) {
+            response.send('Missing or invalid api token');
+        }
+        const { userId,
+            country,
+            regionState,
+            cityTown,
+            street,
+            house,
+            apartment,
+            postalCode } = request.post();
+
         const address = new Address();
 
         address.user_id = userId;
@@ -35,17 +61,6 @@ class AddressController {
         user.email = email;
 
         await user.save();
-    }
-
-    async show ({ params }) {
-        const ADDRESS_ID = params.id;
-        const address = await Address.findBy('id', ADDRESS_ID);
-        if (address) {
-            return address;
-        }
-        return {
-            error: `Address not found by ID:${ADDRESS_ID}`,
-        };
     }
 
 

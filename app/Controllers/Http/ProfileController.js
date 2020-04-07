@@ -2,7 +2,6 @@
 
 const Profile = use('App/Models/Profile');
 const User = use('App/Models/User');
-const Logger = use('Logger');
 
 class ProfileController {
     async index () {

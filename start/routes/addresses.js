@@ -9,18 +9,21 @@ Route
         Route
             .resource(ROUTES.ADDRESSES, CONTROLLERS.ADDRESSES)
             .middleware('auth')
+            .middleware(new Map([
+                [['index'], ['role:admin']],
+            ]))
             .apiOnly();
         Route
             .get(`${ROUTES.ADDRESSES}/current`, `${CONTROLLERS.ADDRESSES}.addressOfCurrentUser`)
-            .middleware('auth')
+            .middleware(['auth'])
             .formats(['json']);
         Route
             .get(`${ROUTES.ADDRESSES}/user/:id`, `${CONTROLLERS.ADDRESSES}.findByUserId`)
-            .middleware('auth')
+            .middleware(['auth'])
             .formats(['json']);
         Route
             .delete(`${ROUTES.ADDRESSES}/user/:id`, `${CONTROLLERS.ADDRESSES}.deleteByUserId`)
-            .middleware('auth')
+            .middleware(['auth'])
             .formats(['json']);
     })
     .prefix('api/v1/');

@@ -1,3 +1,8 @@
+const ROLES = {
+    ADMIN: 'ADMIN',
+    USER: 'USER',
+};
+
 const ROUTES = {
     USERS: 'users',
     PROFILES: 'profiles',
@@ -21,5 +26,5 @@ const VALIDATORS = {
 };
 
 module.exports = {
-    ROUTES, CONTROLLERS, VALIDATORS,
+    ROLES, ROUTES, CONTROLLERS, VALIDATORS,
 };
