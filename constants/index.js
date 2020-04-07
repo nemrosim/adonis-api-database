@@ -21,5 +21,5 @@ const VALIDATORS = {
 };
 
 module.exports = {
-    ROUTES, CONTROLLERS, VALIDATORS
+    ROUTES, CONTROLLERS, VALIDATORS,
 };
