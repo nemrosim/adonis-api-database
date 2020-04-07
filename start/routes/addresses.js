@@ -4,7 +4,6 @@
 const Route = use('Route');
 const { ROUTES, CONTROLLERS } = require('../../constants/routes');
 
-
 Route
     .group(() => {
         Route
