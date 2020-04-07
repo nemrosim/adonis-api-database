@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /*
 |--------------------------------------------------------------------------
@@ -12,10 +12,23 @@
 */
 
 /** @type {import('@adonisjs/lucid/src/Factory')} */
-// const Factory = use('Factory')
+const Factory = use('Factory');
+const Logger = use('Logger');
+const { ROLES } = require('../constants');
 
-// Factory.blueprint('App/Models/User', (faker) => {
-//   return {
-//     username: faker.username()
-//   }
-// })
+Factory.blueprint('App/Models/User', async (faker) => {
+    const email = faker.email();
+    const password = faker.password();
+    const role = ROLES.USER;
+
+    Logger
+        .transport('file')
+        .debug(`New user created\nEmail: ${email}\nPassword: ${password}\nRole: ${role}`);
+
+
+    return {
+        email,
+        password,
+        role,
+    };
+});

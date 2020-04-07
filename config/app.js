@@ -2,31 +2,17 @@
 
 /** @type {import('@adonisjs/framework/src/Env')} */
 const Env = use('Env');
+const { format } = require('winston');
+
+const moment = use('moment');
+
+const { combine, timestamp, label, prettyPrint, printf, align, splat, colorize } = format;
+
+const myFormat = printf(({ level, message, timestamp }) => `${level.toUpperCase()} [${timestamp}] [${moment(timestamp)
+    .format('YYYY MMMM DD, h:mm:ss')}]\n${message}`);
 
 module.exports = {
-
-    /*
-  |--------------------------------------------------------------------------
-  | Application Name
-  |--------------------------------------------------------------------------
-  |
-  | This value is the name of your application and can used when you
-  | need to place the application's name in a email, view or
-  | other location.
-  |
-  */
-
     name: Env.get('APP_NAME', 'AdonisJs'),
-
-    /*
-  |--------------------------------------------------------------------------
-  | App Key
-  |--------------------------------------------------------------------------
-  |
-  | App key is a randomly generated 16 or 32 characters long string required
-  | to encrypt cookies, sessions and other sensitive data.
-  |
-  */
     appKey: Env.getOrFail('APP_KEY'),
 
     http: {
@@ -181,25 +167,18 @@ module.exports = {
         console: {
             driver: 'console',
             name: 'adonis-app',
-            level: 'info',
+            level: 'debug',
         },
-
-        /*
-    |--------------------------------------------------------------------------
-    | File Transport
-    |--------------------------------------------------------------------------
-    |
-    | File transport uses file driver and writes log messages for a given
-    | file inside `tmp` directory for your app.
-    |
-    | For a different directory, set an absolute path for the filename.
-    |
-    */
         file: {
             driver: 'file',
             name: 'adonis-app',
             filename: 'adonis.log',
-            level: 'info',
+            level: 'debug',
+            format: combine(
+                timestamp(),
+                // prettyPrint(),
+                myFormat,
+            ),
         },
     },
 

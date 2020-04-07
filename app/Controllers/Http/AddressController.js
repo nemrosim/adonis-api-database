@@ -22,12 +22,6 @@ class AddressController {
     }
 
     async store ({ auth, request, response }) {
-        try {
-            const user = await auth.getUser();
-            Logger.error('auth %j', user);
-        } catch (error) {
-            response.send('Missing or invalid api token');
-        }
         const { userId,
             country,
             regionState,
