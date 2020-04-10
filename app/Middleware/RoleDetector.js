@@ -11,8 +11,7 @@ class RoleDetector {
     async handle ({ auth, response }, next, props) {
         const roles = [];
         props.forEach((prop) => {
-            Logger.notice('ROLE:%s', prop);
-
+            Logger.notice('=====***** ROLE DETECTOR *****======');
             Object.keys(ROLES)
                 .forEach((key) => {
                     if (prop.toLowerCase() === ROLES[key].toLowerCase()) {
@@ -21,7 +20,7 @@ class RoleDetector {
                 });
         });
 
-        Logger.debug('RoleDetector. Passes roles %s', roles);
+        Logger.debug('1. Required ROLES to pass: %s', roles);
 
         if (!roles.length) {
             Logger.warning('RoleDetector. Roles not specified');
@@ -34,9 +33,10 @@ class RoleDetector {
         } else {
             const user = await auth.getUser();
 
-            Logger.debug('RoleDetector. User role: %s', user.role);
+            Logger.debug('2. Current user\'s role is -> %s', user.role.toLowerCase());
 
-            if (!roles.includes(user.role)) {
+
+            if (!roles.includes(user.role.toLowerCase())) {
                 response.send({
                     error: 'You dont have permission to do that',
                 });
