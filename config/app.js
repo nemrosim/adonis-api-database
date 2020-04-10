@@ -6,9 +6,9 @@ const { format } = require('winston');
 
 const moment = use('moment');
 
-const { combine, timestamp, label, prettyPrint, printf, align, splat, colorize } = format;
+const { combine, timestamp, printf } = format;
 
-const myFormat = printf(({ level, message, timestamp }) => `${level.toUpperCase()} [${timestamp}] [${moment(timestamp)
+const myFormat = printf(({ level, message, timestamp }) => `${level.toUpperCase()} [${moment(timestamp)
     .format('YYYY MMMM DD, h:mm:ss')}]\n${message}`);
 
 module.exports = {
@@ -176,7 +176,6 @@ module.exports = {
             level: 'debug',
             format: combine(
                 timestamp(),
-                // prettyPrint(),
                 myFormat,
             ),
         },

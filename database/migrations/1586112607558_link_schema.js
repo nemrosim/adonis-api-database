@@ -6,9 +6,9 @@ const { TABLE_NAMES, FOREIGN_KEYS } = require('../../constants');
 
 class LinkSchema extends Schema {
     async up () {
-        const exists = await this.hasTable(TABLE_NAMES.ADDRESSES);
+        const exists = await this.hasTable(TABLE_NAMES.LINKS);
         if (!exists) {
-            this.create('links', (table) => {
+            this.create(TABLE_NAMES.LINKS, (table) => {
                 table.increments('id');
                 table.integer(FOREIGN_KEYS.USER_ID)
                     .unsigned()
@@ -30,7 +30,7 @@ class LinkSchema extends Schema {
     }
 
     down () {
-        this.drop('links');
+        this.dropTableIfExists(TABLE_NAMES.LINKS);
     }
 }
 

@@ -30,8 +30,7 @@
     "@adonisjs/vow": "1.0.17",
     "geoip-lite": "1.4.1",
     "mysql": "2.18.1",
-    "url-parse": "1.4.7",
-    "winston": "3.2.1"
+    "url-parse": "1.4.7"
   },
   "devDependencies": {
     "@types/debug": "0.0.31",

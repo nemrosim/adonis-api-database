@@ -31,6 +31,7 @@ const TABLE_NAMES = {
     TOKENS: 'tokens',
     PROFILES: 'profiles',
     ADDRESSES: 'addresses',
+    LINKS: 'links',
 };
 
 const FOREIGN_KEYS = {
