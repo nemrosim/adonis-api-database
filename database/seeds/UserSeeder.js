@@ -30,99 +30,125 @@ const asyncIterable = {
     },
 };
 
+const createUserIfNotExist = async ({ isPresent, role, email, password }) => {
+    if (!isPresent) {
+        Logger
+            .transport('file')
+            .notice(`User with email ${email} not exist in database`);
+
+        const user = new User();
+
+        user.email = email;
+        user.password = password;
+        user.role = role;
+
+        try {
+            Logger
+                .transport('file')
+                .notice(`User with email ${email} created in database`);
+            // save new admin user in database
+            await user.save();
+        } catch (e) {
+            Logger
+                .transport('file')
+                .error(`User with email ${email} was not created in database`);
+        }
+    } else {
+        Logger
+            .transport('file')
+            .info(`User with email ${email} already exist in database`);
+    }
+};
+
+const createOneUser = async () => {
+    /**
+   * This is a simple example of creating one user with one profile
+   */
+    const user = await Factory.model('App/Models/User')
+        .create(); // this will save new User in database
+    const profile = await Factory.model('App/Models/Profile')
+        .make(); // this will only create Profile, without saving it to database
+
+    /**
+   * and only this will save new Profile with connecting to User
+   */
+    await user.profile()
+        .save(profile);
+};
+
+/**
+ * And this example with using generator function
+ * @return {Generator<Promise|Promise<*>|Promise<*>, void, *>}
+ */
+function* createOneUser_generator() {
+  const user = yield Factory.model('App/Models/User')
+    .create();
+  const profile = yield Factory.model('App/Models/Profile')
+    .make();
+
+  yield user.profile()
+    .save(profile);
+}
+
+/**
+ * And this is more complex example of creating
+ * multiple users with one unique profile for each.
+ */
+async function createMultipleUsersWithProfiles () {
+    for (const item of new Array(10)) {
+        const user = await Factory.model('App/Models/User')
+            .create();
+        const profile = await Factory.model('App/Models/Profile')
+            .make();
+
+        await user.profile()
+            .save(profile);
+    }
+}
+
+/**
+ * And this is with using helper functions
+ * with previous result. 10 Users and 10 Profiles
+ *
+ * @return {Promise<void>}
+ */
+async function createMultipleUsersWithProfiles_v2 () {
+  for await (let num of asyncIterable) {
+    const user = await Factory.model('App/Models/User')
+      .create();
+    const profile = await Factory.model('App/Models/Profile')
+      .make();
+
+    await user.profile()
+      .save(profile);
+  }
+}
+
 class UserSeeder {
     async run () {
         const ADMIN_USER_EMAIL = 'admin@gmail.com';
-        const isPresent = await User.findBy('email', ADMIN_USER_EMAIL);
-        // if user was not previously added in database
-        if (!isPresent) {
-            Logger
-                .transport('file')
-                .notice(`Admin user with email ${ADMIN_USER_EMAIL} not exist in database`);
+        const USER_USER_EMAIL = 'user@gmail.com';
+        const isAdminPresent = await User.findBy('email', ADMIN_USER_EMAIL);
+        const isUserPresent = await User.findBy('email', USER_USER_EMAIL);
 
-            const adminUser = new User();
+        await createUserIfNotExist({
+            isPresent: isAdminPresent,
+            email: ADMIN_USER_EMAIL,
+            password: '123456',
+            role: ROLES.ADMIN,
+        });
+        await createUserIfNotExist({
+            isPresent: isUserPresent,
+            email: USER_USER_EMAIL,
+            password: '123456',
+            role: ROLES.USER,
+        });
 
-            adminUser.email = 'admin@gmail.com';
-            adminUser.password = '123456';
-            adminUser.role = ROLES.ADMIN;
+        await createOneUser();
+        await createOneUser_generator();
+        await createMultipleUsersWithProfiles();
+        await createMultipleUsersWithProfiles_v2();
 
-            try {
-                Logger
-                    .transport('file')
-                    .notice(`Admin user with email ${ADMIN_USER_EMAIL} created in database`);
-                // save new admin user in database
-                await adminUser.save();
-            } catch (e) {
-                Logger
-                    .transport('file')
-                    .error(`Admin user with email ${ADMIN_USER_EMAIL} was not created in database`);
-            }
-        } else {
-            Logger
-                .transport('file')
-                .info(`Admin user with email ${ADMIN_USER_EMAIL} already exist in database`);
-        }
-
-        // Next you will see different implementations of filling database
-      // with one and multiple fake data
-
-      /**
-       * This is a simple example of creating one user with one profile
-       */
-      const user = await Factory.model('App/Models/User')
-            .create(); // this will save new User in database
-        const profile = await Factory.model('App/Models/Profile')
-            .make(); // this will only create Profile, without saving it to database
-
-        await user.profile()
-            .save(profile); // and only this will save new Profile with connecting to User
-
-
-      /**
-       * And this is more complex example of creating
-       * multiple users with one unique profile for each.
-       */
-      (async function processArray () {
-            for (const item of new Array(10)) {
-                const user = await Factory.model('App/Models/User')
-                    .create();
-                const profile = await Factory.model('App/Models/Profile')
-                    .make();
-
-                await user.profile()
-                    .save(profile);
-            }
-        }());
-
-
-      /**
-       * And this is with using helper functions
-       * with previous result. 10 Users and 10 Profiles
-       */
-      (async function() {
-        for await (let num of asyncIterable) {
-          const user = await Factory.model('App/Models/User')
-            .create();
-          const profile = await Factory.model('App/Models/Profile')
-            .make();
-
-          await user.profile()
-            .save(profile);
-        }
-      })();
-
-      /**
-       * And this example with using generator function :)
-       */
-      (function* () {
-        const user = yield Factory.model('App/Models/User')
-          .create();
-        const profile = yield Factory.model('App/Models/Profile')
-          .make();
-
-        yield user.profile()
-          .save(profile);
-      })();
     }
 }
 
