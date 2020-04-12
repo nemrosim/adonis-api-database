@@ -2,7 +2,7 @@
 
 class ServerController {
     async serverCheck ({ request }) {
-        return request;
+        return 'Server workrs';
     }
 }
 
