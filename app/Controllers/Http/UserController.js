@@ -1,6 +1,7 @@
 'use strict';
 
 const User = use('App/Models/User');
+const Hash = use('Hash');
 const Profile = use('App/Models/Profile');
 const Logger = use('Logger');
 
@@ -34,7 +35,34 @@ class UserController {
             .fetch();
     }
 
-    async update ({ request, params }) {
+    async changePassword ({ auth, request, response }) {
+        const { oldPassword, newPassword } = request.post();
+
+        if (oldPassword === newPassword) {
+            response.status(403)
+                .send({
+                    error: 'Old password and new Password are exactly the same',
+                });
+        }
+
+        const user = await auth.getUser();
+
+        const isSame = await Hash.verify(oldPassword, user.password);
+        if (isSame) {
+            user.password = newPassword;
+            const result = await user.save();
+            if (result) {
+                return 'User was saved';
+            }
+            return 'Error during saving new password';
+        }
+        response.status(403)
+            .send({
+                error: 'Old password is not correct',
+            });
+    }
+
+    async changeEmail ({ request, params }) {
         const user = await User.find(params.id);
 
         const { password, email } = request.post();
@@ -45,8 +73,17 @@ class UserController {
         await user.save();
     }
 
-    async show ({ params }) {
-        return await User.find(params.id);
+    async show ({ params, response }) {
+        Logger.info('== USER SHOW METHOD =');
+
+        const user = await User.find(params.id);
+        if (user) {
+            return user;
+        }
+        response.status(404)
+            .send({
+                error: `User not found by ID:${params.id}`,
+            });
     }
 
     async destroy ({ auth, params }) {
