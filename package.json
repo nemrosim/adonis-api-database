@@ -9,7 +9,7 @@
     "start:dev": "ENV_PATH=.env.dev adonis serve --dev",
     "start:test": "ENV_PATH=.env.testing adonis serve --dev",
     "test": "node ace test",
-    "run:seed": "ENV_PATH=.env.testing adonis seed"
+    "run:seed:test": "ENV_PATH=.env.testing adonis seed"
   },
   "keywords": [
     "adonisjs",
