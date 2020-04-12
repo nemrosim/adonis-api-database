@@ -2,6 +2,7 @@
 
 const User = use('App/Models/User');
 const Logger = use('Logger');
+const Mail = use('Mail');
 
 class AuthController {
     async login ({ auth, request }) {
@@ -32,6 +33,17 @@ class AuthController {
         user.email = email;
 
         await user.save();
+    }
+
+    async sendEmail ({ request }) {
+        Logger.info('=== SENDING EMAIL ===');
+        const result = await Mail.raw('<h1>HELLO</h1>', (message) => {
+            message.from('foo@bar.com');
+            message.to('nemrosim1988@gmail.com');
+        });
+
+        Logger.info(result);
+        return 'SEND';
     }
 }
 
