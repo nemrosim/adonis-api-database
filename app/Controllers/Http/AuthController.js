@@ -3,6 +3,7 @@
 const User = use('App/Models/User');
 const Logger = use('Logger');
 const Mail = use('Mail');
+const Env = use('Env');
 
 class AuthController {
     async login ({ auth, request }) {
@@ -21,10 +22,10 @@ class AuthController {
     async register ({ request }) {
         const { email } = request.post();
 
-        const found = await User.findBy('email', email);
-        if (found) {
+        const isExist = await User.findBy('email', email);
+        if (isExist) {
             return {
-                found,
+                found: isExist,
             };
         }
         const { password } = request.post();
@@ -32,18 +33,18 @@ class AuthController {
         user.password = password;
         user.email = email;
 
-        await user.save();
-    }
+        const savedUser = await user.save();
+        if (savedUser) {
+            Logger.info('=== SENDING EMAIL ===');
+            const result = await Mail.send('email-verify', user.toJSON(), (message) => {
+                message.from(Env.get('MAIL_USERNAME'));
+                message.to('nemrosim1988@gmail.com');
+            });
 
-    async sendEmail ({ request }) {
-        Logger.info('=== SENDING EMAIL ===');
-        const result = await Mail.raw('<h1>HELLO</h1>', (message) => {
-            message.from('foo@bar.com');
-            message.to('nemrosim1988@gmail.com');
-        });
-
-        Logger.info(result);
-        return 'SEND';
+            Logger.info(result);
+            return 'SEND';
+        }
+        return 'user was not created';
     }
 }
 

@@ -14,6 +14,9 @@ class UserSchema extends Schema {
                 table.string('email', 254)
                     .notNullable()
                     .unique();
+                table.boolean('is_email_verified')
+                    .notNullable()
+                    .defaultTo(false);
                 table.string('password', 254)
                     .notNullable();
                 table.enum('role', Object.values(ROLES))

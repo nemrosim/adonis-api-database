@@ -40,6 +40,7 @@ const createUserIfNotExist = async ({ isPresent, role, email, password }) => {
 
         user.email = email;
         user.password = password;
+        user.is_email_verified = true;
         user.role = role;
 
         try {

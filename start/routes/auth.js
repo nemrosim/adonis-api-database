@@ -15,7 +15,7 @@ Route
         Route
             .post(ROUTES.REGISTER, `${CONTROLLERS.AUTH}.register`)
             .middleware(['guest'])
-            .validator('RegisterUser')
+            .validator('User/RegisterUser')
             .formats(['json']);
 
 
