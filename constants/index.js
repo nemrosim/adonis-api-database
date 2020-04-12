@@ -11,6 +11,7 @@ const ROUTES = {
     LOGIN: 'login',
     REGISTER: 'register',
     SEND_EMAIL: 'sendEmail',
+  SERVER: 'server',
 };
 
 const CONTROLLERS = {
@@ -20,6 +21,7 @@ const CONTROLLERS = {
     AUTH: 'AuthController',
     PROFILE_CONTROLLER: 'ProfileController',
     USER_CONTROLLER: 'UserController',
+    SERVER: 'ServerController',
 };
 
 const VALIDATORS = {
