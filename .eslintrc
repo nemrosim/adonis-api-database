@@ -11,6 +11,7 @@
     "no-return-await": "off",
     "no-param-reassign": "off",
     "class-methods-use-this": "off",
+    "prefer-object-spread": "off",
     "space-before-function-paren": [
       "error",
       {
