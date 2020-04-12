@@ -9,6 +9,7 @@ const ERROR_CODES = {
     E_INVALID_MIDDLEWARE_TYPE: 'E_INVALID_MIDDLEWARE_TYPE',
     E_MISSING_NAMED_MIDDLEWARE: 'E_MISSING_NAMED_MIDDLEWARE',
     E_USER_NOT_FOUND: 'E_USER_NOT_FOUND',
+    E_UNDEFINED_METHOD: 'E_UNDEFINED_METHOD',
 };
 
 /**
@@ -30,28 +31,6 @@ class ExceptionHandler extends BaseExceptionHandler {
    * @return {void}
    */
     async handle (error, { request, response }) {
-        Logger.error('ERROR \nStatus:%s \nName:%s \nMessage:%s \nCode:%s \nHost:%s \nURL:%s',
-            error.status,
-            error.name,
-            error.message,
-            error.code,
-            request.header('host'),
-            request.url());
-        //
-        // host: request.header('host'),
-        //   url: request.url(),
-        //   originalUrl: request.originalUrl(),
-        //   method: request.method(),
-        //   intended: request.intended(),
-        //   ip: request.ip(),
-        //   subdomains: request.subdomains(),
-        //   'user-agent': request.header('user-agent'),
-        //   accept: request.header('accept'),
-        //   hello: request.header('hello'),
-        //   isAjax: request.ajax(),
-        //   hostname: request.hostname(),
-        //   protocol: request.protocol(),
-
         switch (error.code) {
         case ERROR_CODES.E_PASSWORD_MISMATCH:
             response.status(error.status)
@@ -63,6 +42,13 @@ class ExceptionHandler extends BaseExceptionHandler {
             response.status(error.status)
                 .send({
                     error: error.message.split(':')[1].trim(),
+                });
+            break;
+        }
+        case ERROR_CODES.E_UNDEFINED_METHOD: {
+            response.status(error.status)
+                .send({
+                    error: `${request.method()} '${request.url()}' endpoint does not exist`,
                 });
             break;
         }
@@ -114,6 +100,29 @@ class ExceptionHandler extends BaseExceptionHandler {
    * @return {void}
    */
     async report (error, { request }) {
+        Logger.error('===== ERROR REPORT =====');
+        Logger.error(`ERROR ${error.code} \n1. Status:%s \n2. Name:%s \n3. Message:%s \n4. Host:%s \n5. METHOD:%s \n6. URL:%s`,
+            error.status,
+            error.name,
+            error.message,
+            request.header('host'),
+            request.method(),
+            request.url());
+
+        //
+        // host: request.header('host'),
+        //   url: request.url(),
+        //   originalUrl: request.originalUrl(),
+        //   method: request.method(),
+        //   intended: request.intended(),
+        //   ip: request.ip(),
+        //   subdomains: request.subdomains(),
+        //   'user-agent': request.header('user-agent'),
+        //   accept: request.header('accept'),
+        //   hello: request.header('hello'),
+        //   isAjax: request.ajax(),
+        //   hostname: request.hostname(),
+        //   protocol: request.protocol(),
     }
 }
 
