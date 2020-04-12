@@ -17,5 +17,13 @@ Route
             .middleware(['guest'])
             .validator('RegisterUser')
             .formats(['json']);
+
+
+        Route
+            .post(`${ROUTES.SEND_EMAIL}`, `${CONTROLLERS.AUTH}.sendEmail`)
+            .middleware(['auth'])
+            .middleware(['role:user'])
+            // .validator([VALIDATORS.CHANGE_EMAIL_USER])
+            .formats(['json']);
     })
     .prefix('api/v1/');
