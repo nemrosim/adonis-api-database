@@ -17,9 +17,9 @@ class CountryDetector {
         const ip = request.ip();
         Logger.notice('IP: %s', ip);
 
-        if (ip !== '127.0.0.1') {
-            request.country = geoip.lookup(ip).country;
-        }
+        // if (ip !== '127.0.0.1') {
+        //     request.country = geoip.lookup(ip).country;
+        // }
 
         await next();
     }

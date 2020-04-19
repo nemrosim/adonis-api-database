@@ -11,7 +11,7 @@ const ROUTES = {
     LOGIN: 'login',
     REGISTER: 'register',
     SEND_EMAIL: 'sendEmail',
-  SERVER: 'server',
+    SERVER: 'server',
 };
 
 const CONTROLLERS = {
