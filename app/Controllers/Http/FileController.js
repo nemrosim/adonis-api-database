@@ -5,10 +5,10 @@ const Drive = use('Drive');
 
 class FileController {
     async upload ({ request }) {
-        const imageFile = request.file('custom-param-name');
+        const imageFile = request.file('image');
 
         await imageFile.move(Helpers.tmpPath('uploads'), {
-            name: 'custom-name.jpg',
+            name: 'image.jpg',
             overwrite: false,
         });
 

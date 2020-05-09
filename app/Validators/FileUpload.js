@@ -3,13 +3,13 @@
 class FileUpload {
     get rules () {
         return {
-            'custom-param-name': 'required|file|file_types:image|file_ext:jpeg|file_size:1mb',
+            image: 'required|file|file_types:image|file_ext:jpeg|file_size:2mb',
         };
     }
 
     get messages () {
         return {
-            'custom-param-name.required': 'Your custom text message',
+            image: 'Your custom text message',
         };
     }
 
