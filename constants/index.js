@@ -12,6 +12,7 @@ const ROUTES = {
     REGISTER: 'register',
     SEND_EMAIL: 'sendEmail',
     SERVER: 'server',
+    FILE_UPLOAD: 'upload',
 };
 
 const CONTROLLERS = {
@@ -22,6 +23,7 @@ const CONTROLLERS = {
     PROFILE_CONTROLLER: 'ProfileController',
     USER_CONTROLLER: 'UserController',
     SERVER: 'ServerController',
+    FILES: 'FilesController',
 };
 
 const VALIDATORS = {
@@ -46,6 +48,18 @@ const FOREIGN_KEYS = {
     USER_ID: 'user_id',
 };
 
+const MIME_TYPES = {
+    application: 'application',
+    audio: 'audio',
+    example: 'example',
+    image: 'image',
+    message: 'message',
+    model: 'model',
+    multipart: ' multipart',
+    text: 'text',
+    video: 'video',
+};
+
 module.exports = {
-    ROLES, ROUTES, CONTROLLERS, VALIDATORS, TABLE_NAMES, FOREIGN_KEYS,
+    ROLES, ROUTES, CONTROLLERS, VALIDATORS, TABLE_NAMES, FOREIGN_KEYS, MIME_TYPES,
 };

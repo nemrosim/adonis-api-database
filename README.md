@@ -8,6 +8,20 @@ This is the boilerplate for creating an API server in AdonisJs, it comes pre-con
 4. Lucid ORM
 5. Migrations and seeds
 
+## Controllers
+
+```
+# HTTP Controller
+> adonis make:controller User --type http
+
+# WS Controller
+> adonis make:controller User --type ws
+
+# Will use an Admin subfolder
+> adonis make:controller Admin/User
+
+```
+
 ## Validators
 ```
 adonis make:validator StoreUser
