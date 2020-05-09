@@ -14,8 +14,10 @@ Route
 
 
         Route
-            .post('uploadVideo', 'FileController.uploadVideo');
+            .post('uploadVideo',
+                'FileController.uploadVideo');
         Route
-            .get('downloadVideo/:fileName', 'FileController.download');
+            .get('downloadVideo/:fileName',
+                'FileController.download');
     })
     .prefix('api/v1/');

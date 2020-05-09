@@ -9,7 +9,7 @@ class FileController {
 
         await imageFile.move(Helpers.tmpPath('uploads'), {
             name: 'image.jpg',
-            overwrite: false,
+            overwrite: true,
         });
 
         if (!imageFile.moved()) {
@@ -23,7 +23,7 @@ class FileController {
 
         await video.move(Helpers.tmpPath('uploads'), {
             name: 'video.mp4',
-            overwrite: false,
+            overwrite: true,
         });
 
         if (!video.moved()) {
