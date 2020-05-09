@@ -18,6 +18,30 @@ class FileController {
         return 'File uploaded';
     }
 
+    async uploadVideo ({ request }) {
+        const video = request.file('video');
+
+        await video.move(Helpers.tmpPath('uploads'), {
+            name: 'video.mp4',
+            overwrite: false,
+        });
+
+        if (!video.moved()) {
+            return video.error();
+        }
+        return 'Video file uploaded';
+    }
+
+    async downloadVideo ({ params, response }) {
+        const filePath = `uploads/${params.fileName}`;
+        const isExist = await Drive.exists(filePath);
+
+        if (isExist) {
+            return response.download(Helpers.tmpPath(filePath));
+        }
+        return 'File does not exist';
+    }
+
     async download ({ params, response }) {
         const filePath = `uploads/${params.fileName}`;
         const isExist = await Drive.exists(filePath);

@@ -11,5 +11,11 @@ Route
 
         Route
             .get('download/:fileName', 'FileController.download');
+
+
+        Route
+            .post('uploadVideo', 'FileController.uploadVideo');
+        Route
+            .get('downloadVideo/:fileName', 'FileController.download');
     })
     .prefix('api/v1/');
